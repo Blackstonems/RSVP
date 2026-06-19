@@ -7,3 +7,6 @@ data/*.db
 data/*.db-shm
 data/*.db-wal
 data/*.db-journal
+
+# local editor / Claude Code config (machine-specific)
+.claude/
