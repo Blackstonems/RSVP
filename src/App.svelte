@@ -325,13 +325,12 @@
   <div class="wrap">
   <!-- ───────────────── 前言 ───────────────── -->
   <section class="intro" in:fade={{ duration: 1000 }}>
-    <p class="intro-en">From the Deep Blue to I&nbsp;Do</p>
+    <p class="intro-en">From the Deep Blue to I&nbsp;Do.</p>
     <p class="intro-text">
       我們的故事從潛入深藍海洋的那一天悄悄展開<br />
-      從潛伴到另一半<br />
-      一路走來　有風景　有驚喜<br />
-      更有您們的陪伴與祝福<br />
-      誠摯邀請您於 8/1 與我們一同分享這份幸福
+      從潛伴到另一半成為彼此最重要的人<br />
+      一路走來我們寫下了許多美好的故事<br />
+      誠摯邀請您與我們一同分享這份幸福
     </p>
   </section>
 
