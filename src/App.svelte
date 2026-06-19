@@ -325,11 +325,13 @@
   <div class="wrap">
   <!-- ───────────────── 前言 ───────────────── -->
   <section class="intro" in:fade={{ duration: 1000 }}>
-    <span class="intro-label">誠摯邀請</span>
+    <p class="intro-en">From the Deep Blue to I&nbsp;Do</p>
     <p class="intro-text">
-      最美的風景，是有你在的每一天。<br />
-      2026 的夏天，我們決定把往後的日子過成兩個人的故事——<br />
-      誠摯邀請你，來分享我們的幸福。
+      我們的故事從潛入深藍海洋的那一天悄悄展開<br />
+      從潛伴到另一半<br />
+      一路走來　有風景　有驚喜<br />
+      更有您們的陪伴與祝福<br />
+      誠摯邀請您於 8/1 與我們一同分享這份幸福
     </p>
   </section>
 
@@ -711,21 +713,23 @@
     text-align: center;
     padding: 30px 14px 26px;
   }
-  .intro-label {
-    display: inline-block;
+  .intro-en {
+    display: block;
     font-family: var(--serif-tc);
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+    font-style: italic;
     font-weight: 500;
-    letter-spacing: 0.34em;
+    letter-spacing: 0.04em;
     color: var(--accent);
-    padding-left: 0.34em;
-    margin-bottom: 18px;
+    margin: 0 0 18px;
   }
-  .intro-label::before,
-  .intro-label::after {
+  .intro-en::before,
+  .intro-en::after {
     content: '—';
-    margin: 0 0.7em;
+    margin: 0 0.55em;
     color: var(--line);
+    font-style: normal;
+    letter-spacing: 0;
   }
   .intro-text {
     font-family: var(--serif-tc);
