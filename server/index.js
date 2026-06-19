@@ -332,8 +332,23 @@ app.get('/api/admin/export.csv', (c) => {
 
 // 正式環境：由後端直接服務打包好的前端
 if (isProd) {
-  app.use('/*', serveStatic({ root: './dist' }))
-  app.get('*', serveStatic({ path: './dist/index.html' }))
+  // 快取策略（讓改版能立即生效，不再卡在舊版）：
+  //  ・/assets/* 檔名帶內容雜湊 → 可永久快取（immutable）
+  //  ・sw.js / index.html / manifest → no-cache，每次都向伺服器重新驗證
+  //  ・其餘固定檔名（icon、hero.jpg…）→ 一天快取
+  // 註：Cloudflare 需設「Respect Existing Headers」或對 /sw.js 設 Bypass，
+  //     這些標頭才會一路傳到瀏覽器（Cloudflare 端另外處理）。
+  const setCacheHeaders = (path, c) => {
+    if (path.includes('/assets/')) {
+      c.header('Cache-Control', 'public, max-age=31536000, immutable')
+    } else if (/(?:sw\.js|registerSW\.js|\.html|\.webmanifest|manifest\.json)$/.test(path)) {
+      c.header('Cache-Control', 'no-cache')
+    } else {
+      c.header('Cache-Control', 'public, max-age=86400')
+    }
+  }
+  app.use('/*', serveStatic({ root: './dist', onFound: setCacheHeaders }))
+  app.get('*', serveStatic({ path: './dist/index.html', onFound: setCacheHeaders }))
 }
 
 // 正式環境用 PORT（容器埠）；開發環境用 API_PORT，與 Vite 的 PORT 分開避免搶埠
