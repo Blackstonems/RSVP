@@ -1,0 +1,40 @@
+# Kyle & Sandy RSVP — Synology Container Manager 用
+#
+# 你的 NAS 已有現成的 Cloudflare Tunnel（Routes 裡已經有多個 *.blst.cc），
+# 所以這裡只跑 app 容器、對外開一個埠，讓你現成的 tunnel 指過來即可。
+# 在 Cloudflare 的 tunnel Routes 新增：rsvp.blst.cc → Service URL = http://localhost:8080
+#
+# （若哪天你沒有現成 tunnel，最下面有內建 cloudflared 的選用設定。）
+
+services:
+  app:
+    build: .
+    image: rsvp-app:latest
+    container_name: rsvp-app
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: "8080"
+      DB_PATH: /data/rsvp.db
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      LINE_CHANNEL_ACCESS_TOKEN: ${LINE_CHANNEL_ACCESS_TOKEN:-}
+      LINE_TO: ${LINE_TO:-}
+      LIFF_ID: ${LIFF_ID:-}
+    volumes:
+      # 資料庫留在 NAS（同層 data 資料夾），方便備份
+      - ./data:/data
+    ports:
+      # 主機埠:容器埠 — 你現成的 tunnel 就指到 http://localhost:<主機埠>
+      # 若 8080 在 NAS 上已被占用，改 .env 的 APP_PORT，並讓 tunnel Service URL 用同一個埠
+      - "${APP_PORT:-8080}:8080"
+
+  # ── 選用：只有「沒有現成 tunnel」時才取消下面註解，並在 .env 設 TUNNEL_TOKEN ──
+  # cloudflared:
+  #   image: cloudflare/cloudflared:latest
+  #   container_name: rsvp-tunnel
+  #   restart: unless-stopped
+  #   command: tunnel --no-autoupdate run
+  #   environment:
+  #     TUNNEL_TOKEN: ${TUNNEL_TOKEN}
+  #   depends_on:
+  #     - app
